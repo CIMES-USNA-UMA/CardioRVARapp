@@ -4,7 +4,7 @@
 # This script contains the commands for the building and functionality of
 # CardioRVAR's Shiny interface. This project has been developed by the 
 # department of Physiology of the University of Malaga, and was supervised
-# and mentored by PhD. MS Dawid Milner.  
+# and mentored by PhD. MS Dawid Milner.
 #
 # The purpose of this interface is to facilitate the use of CardioRVAR's
 # commands in a user-friendly way. With the interface, the user is able to:
@@ -58,9 +58,11 @@ if(!require(ggplot2)){
 
 # Licencia mas apropiada: GPL2 o GPL >= 2
 
-devtools::load_all(package)
+if(!require(CardioRVAR)){
+  devtools::install_git("https://github.com/CIMES-USNA-UMA/CardioRVAR")
+}
 
-
+library(CardioRVAR)
 
 # CardioRVAR's interface
 ui <- fluidPage(
