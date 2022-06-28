@@ -2,11 +2,11 @@
 # Developed by Alvaro Chao-Ecija
 # 
 # This script contains the commands for the building and functionality of
-# CardioMVAR's Shiny interface. This project has been developed by the 
+# CardioRVAR's Shiny interface. This project has been developed by the 
 # department of Physiology of the University of Malaga, and was supervised
 # and mentored by PhD. MS Dawid Milner.  
 #
-# The purpose of this interface is to facilitate the use of CardioMVAR's
+# The purpose of this interface is to facilitate the use of CardioRVAR's
 # commands in a user-friendly way. With the interface, the user is able to:
 #
 # 1. Upload cardiovascular signals and select a specific time window
@@ -25,7 +25,7 @@
 library(shiny)
 
 user <- Sys.getenv("USERPROFILE")
-package <- paste(user, "\\Desktop\\CardioMVAR version shiny\\CardioMVAR", sep ="")
+package <- paste(user, "\\Desktop\\CardioRVAR version shiny\\CardioRVAR", sep ="")
 
 
 if(!require(vars)){
@@ -62,7 +62,7 @@ devtools::load_all(package)
 
 
 
-# CardioMVAR's interface
+# CardioRVAR's interface
 ui <- fluidPage(
   tags$head(
    tags$style(HTML("
@@ -74,7 +74,7 @@ ui <- fluidPage(
    ),
   
   # Application title
-  titlePanel("CardioMVAR"),
+  titlePanel("CardioRVAR"),
   
   wellPanel(
   # Uploading section: the user can upload data, and select a specific time
@@ -387,12 +387,12 @@ ui <- fluidPage(
            wellPanel(
              h2("About this software"),
              br(),
-             p("CardioMVAR is a software developed by the Department of Physiology of the University of Malaga. With this 
+             p("CardioRVAR is a software developed by the Department of Physiology of the University of Malaga. With this 
                  software, interactions between cardiovascular variables can be modelled as a closed loop, and certain parameters
                  such as the baroreflex sensitivity can be analyzed.
                
                In the following sections, we will discuss several features regarding these analyses. Several references have been 
-               provided for further information. For more information, please contact Alvaro Chao-Ecija (cardiomvar@gmail.com).",style="text-align:justify;color:black;background-color:lavender;padding:15px;border-radius:10px"),
+               provided for further information. For more information, please contact Alvaro Chao-Ecija (cardiorvar@gmail.com).",style="text-align:justify;color:black;background-color:lavender;padding:15px;border-radius:10px"),
              br(),
              tags$hr(),
              h3("Model estimation and validation"),
@@ -1034,5 +1034,5 @@ server <- function(input, output, session) {
   
 }
 
-# Run CardioMVAR
+# Run CardioRVAR
 shinyApp(ui = ui, server = server)
