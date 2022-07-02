@@ -1,0 +1,11 @@
+Package: CardioRVAR Shiny
+Type: Package
+Title: Title
+Version: 0.1.0
+Author: Alvaro Chao Ecija <dummyemail@gmail-.com> [aut, cre]
+Maintainer: Alvaro Chao Ecija <dummyemail@gmail-.com>
+Description: A shiny app designed to work with the functions of CardioRVAR 
+             package. Provides a user-friendly interface for this purpose.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
