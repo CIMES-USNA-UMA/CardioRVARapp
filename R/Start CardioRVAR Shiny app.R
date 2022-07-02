@@ -2,7 +2,7 @@
 
 
 StartCardioRVARapp <- function(){
-  shiny::runApp(paste(getwd(), "/app", sep = ""), launch.browser = TRUE)
+  shiny::runApp(system.file("app", package = "CardioRVARapp"), launch.browser = TRUE)
 }
 
 
