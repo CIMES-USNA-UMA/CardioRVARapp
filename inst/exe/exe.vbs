@@ -4,7 +4,7 @@
 
 ' C:/Users/ServNFS/Documents/R/win-library/4.1/CardioRVARapp/exe/
 
-Dim objShell, strCurFold
-Set objShell = WScript.CreateObject("WScript.Shell")
-strCurFold = objShell.CurrentDirectory
-objShell.Run(strCurFold & "\exe.bat"), 0, True
+Dim exeCardioRVARapp, exeFolder
+Set exeCardioRVARapp = WScript.CreateObject("WScript.Shell")
+exeFolder = exeCardioRVARapp.CurrentDirectory
+exeCardioRVARapp.Run(exeFolder & "\exe.bat"), 0, True
