@@ -7,4 +7,4 @@
 Dim objShell, strCurFold
 Set objShell = WScript.CreateObject("WScript.Shell")
 strCurFold = objShell.CurrentDirectory
-objShell.Run(strCurFold & "exe.bat"), 0, True
+objShell.Run(strCurFold & "\exe.bat"), 0, True
