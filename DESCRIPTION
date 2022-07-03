@@ -9,3 +9,9 @@ Description: A shiny app designed to work with the functions of CardioRVAR
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
+Imports: 
+    diagram,
+    ggplot2
+Depends: 
+    shiny,
+    CardioRVAR
