@@ -6,10 +6,6 @@
   if(!file.exists(shortcDesk)){
     # Update batch file
     pckLocation <- find.package("CardioRVARapp")
-      # To prevent 00LOCK:
-    pckLocation2 <- gsub("00LOCK-CardioRVARapp/00new/", "", pckLocation,
-                        fixed  = TRUE)
-    if(pckLocation == pckLocation2){
       shortcLoc <-  paste(pckLocation, "/CardioRVAR.lnk", sep = "")
       batch <- paste(pckLocation, "/exe/exe.bat", sep = "")
       batch_code <- readLines(batch)
@@ -40,7 +36,6 @@
       shell(shQuote(normalizePath(shcgen)), "cscript", flag = "//nologo")
       # Copy shortcut to desktop
       file.copy(shortcLoc, shortcDesk)
-    }
   }
 }
 
