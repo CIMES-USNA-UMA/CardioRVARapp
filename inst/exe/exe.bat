@@ -3,4 +3,4 @@
 :: Available in: https://www.r-bloggers.com/2020/10/turn-a-shiny-application-into-a-tablet-or-desktop-app/
 
 @ECHO OFF
-"C:\Program Files\R\R-4.1.1\bin\Rscript.exe" -e "CardioRVARapp::StartCardioRVARapp()"
+"C:\Program Files\R\%R-version-for-CardioRVARapp%\bin\Rscript.exe" -e "CardioRVARapp::StartCardioRVARapp()"
