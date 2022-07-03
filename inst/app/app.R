@@ -21,48 +21,9 @@
 #
 # *See the references section for further information.
 
-
 library(shiny)
-
-user <- Sys.getenv("USERPROFILE")
-package <- paste(user, "\\Desktop\\CardioRVAR version shiny\\CardioRVAR", sep ="")
-
-
-if(!require(vars)){
-  install.packages("vars") #GPL >= 2
-}
-
-if(!require(tseries)){
-  install.packages("tseries") #gpl2
-}
-
-if(!require(lmtest)){
-  install.packages("lmtest") # gpl2 | gpl3
-}
-
-if(!require(diagram)){
-  install.packages("diagram") # 
-}
-
-if(!require(waveslim)){
-  install.packages("waveslim") #bsd3
-}
-
-if(!require(tools)){
-  install.packages("tools") # Part of R 4.1.1
-}
-
-if(!require(ggplot2)){
-  install.packages("ggplot2") # MIT
-}
-
-# Licencia mas apropiada: GPL2 o GPL >= 2
-
-if(!require(CardioRVAR)){
-  devtools::install_git("https://github.com/CIMES-USNA-UMA/CardioRVAR")
-}
-
 library(CardioRVAR)
+
 
 # CardioRVAR's interface
 ui <- fluidPage(
