@@ -40,7 +40,7 @@
     # Create Shortcut
     shell(shQuote(normalizePath(shcgen)), "cscript", flag = "//nologo")
     # Copy shortcut to desktop
-    file.copy(shortcLoc, shortcDesk, overwrite = TRUE)
+    file.copy(shortcLoc, shortcDesk)
   }
 }
 
