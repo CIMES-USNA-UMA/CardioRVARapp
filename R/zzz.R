@@ -1,6 +1,6 @@
 
 
-.onLoad <- function(libname, pkgname){
+.onAttach <- function(libname, pkgname){
   user <- Sys.getenv("USERPROFILE")
   shortcDesk <- paste(user, "\\Desktop\\CardioRVAR.lnk", sep = "")
   if(!file.exists(shortcDesk)){
