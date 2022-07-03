@@ -11,7 +11,8 @@ Encoding: UTF-8
 LazyData: true
 Imports: 
     diagram,
-    ggplot2
+    ggplot2,
+    tools
 Depends: 
     shiny,
     CardioRVAR
