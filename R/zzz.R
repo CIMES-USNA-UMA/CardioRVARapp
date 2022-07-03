@@ -1,6 +1,7 @@
 
-
 .onAttach <- function(libname, pkgname){
+  library(shiny)
+  library(CardioRVAR)
   user <- Sys.getenv("USERPROFILE")
   shortcDesk <- paste(user, "\\Desktop\\CardioRVAR.lnk", sep = "")
   if(!file.exists(shortcDesk)){
