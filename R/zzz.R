@@ -9,7 +9,7 @@
       # To prevent 00LOCK:
     pckLocation2 <- gsub("00LOCK-CardioRVARapp/00new/", "", pckLocation,
                         fixed  = TRUE)
-    shortcLoc <-  paste(pckLocation2, "/CardioRVAR.lnk", sep = "")
+    shortcLoc <-  paste(pckLocation, "/CardioRVAR.lnk", sep = "")
     batch <- paste(pckLocation, "/exe/exe.bat", sep = "")
     batch_code <- readLines(batch)
     Rversion <- getRversion()
