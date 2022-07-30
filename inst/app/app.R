@@ -159,12 +159,6 @@ ui <- fluidPage(
       style="text-align:justify;color:black;background-color:lavender;padding:15px;border-radius:10px")
   ))),
   wellPanel(
-            fluidRow(column(12,
-              wellPanel(style = "height:850px;background:white",
-                        imageOutput("CLDiagram"))
-            )
-            ),
-            br(),
             h3("Spectral Coherence:"),
             wellPanel(style = "background:white",
                       plotOutput("coherence_plot")),
@@ -232,12 +226,6 @@ ui <- fluidPage(
   
     
   wellPanel(
-    fluidRow(column(12,
-                    wellPanel(style = "height:850px;background:white",
-                              imageOutput("NDiagram"))
-    )
-    ),
-    br(),
     h3("Noise transfer functions (without 0-lag effects):"),
     tags$hr(),
     fluidRow(
@@ -703,22 +691,6 @@ server <- function(input, output, session) {
       peaks2 <- GetPeaks(freq_model2, str = FALSE)
       peaks3 <- GetEstimateAtMaxCoh(freq_model1, str = FALSE, coherence = coherence)
       peaks4 <- GetEstimateAtMaxCoh(freq_model2, str = FALSE, coherence = coherence)
-      output$CLDiagram <- renderImage({
-        d1 <- tempfile(fileext = ".png")
-        png(filename = d1, width = 1800, height = 700)
-        if(in_var == rr_pos) CardioRVARapp::PlotCLDiagram(1)
-        if(in_var == sbp_pos) CardioRVARapp::PlotCLDiagram(2)
-        dev.off()
-        return(list(src = d1, contentType = "image/png", width = 1800, height = 700, alt = "d1"))
-      }, deleteFile = TRUE)
-      output$NDiagram <- renderImage({
-        d3 <- tempfile(fileext = ".png")
-        png(filename = d3, width = 1800, height = 700)
-        if(out_var == rr_pos) CardioRVARapp::PlotNoiseDiagram(1, immediate = match(input$path_origin, Names))
-        if(out_var == sbp_pos) CardioRVARapp::PlotNoiseDiagram(2, immediate = match(input$path_origin, Names))
-        dev.off()
-        return(list(src = d3, contentType = "image/png", width = 1800, height = 700, alt = "d3"))
-      }, deleteFile = TRUE)
       output$coherence_plot <- renderPlot({PlotCoherence(freq_model1, out_var, in_var, coherence, thr = input$coh_thr)})
       output$noDEL <- renderPlot({PlotTransferFun(freq_model1, out_var, in_var,
                                                   plot.phase = input$Plot_phase)})
