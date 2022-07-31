@@ -965,7 +965,10 @@ server <- function(input, output, session) {
         saveRDS(data, file = file)
       }
     )
-  
+  session$onSessionEnded(function(){
+    stopApp()
+    q(save = "no")
+  })
   
 }
 

@@ -5,5 +5,7 @@
 
 Dim CardioRVARapp, mainFolder
 Set CardioRVARapp = WScript.CreateObject("WScript.Shell")
-mainFolder = "%CarioRVAR_app_directory_folder%"
-CardioRVARapp.Run(mainFolder & "\exe.bat"), 0, True
+mainFolder = CardioRVARapp.CurrentDirectory
+CardioRVARapp.Run mainFolder & "\runCardioRVARapp.bat", 0, True
+Set mainFolder = Nothing
+Set CradioRVARapp = Nothing

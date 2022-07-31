@@ -3,4 +3,5 @@
 :: Available in: https://www.r-bloggers.com/2020/10/turn-a-shiny-application-into-a-tablet-or-desktop-app/
 
 @ECHO OFF
-"C:\Program Files\R\%R-version-for-CardioRVARapp%\bin\Rscript.exe" -e "CardioRVARapp::StartCardioRVARapp()"
+for /f "tokens=* delims=" %%a in ('WHERE /R "C:\Program Files\R" Rscript.exe') do set "exe=%%a"
+"%exe%" -e "CardioRVARapp::StartCardioRVARapp()"
