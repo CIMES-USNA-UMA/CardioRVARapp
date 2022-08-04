@@ -1,0 +1,183 @@
+
+
+
+
+
+DecomposeCrossSpec2 <- function(SM, instant = TRUE){
+A <- SM$Vars_Transfer_funs
+a0 <- SM$a0
+#if(!instant) a0 <- matrix(0, ncol = ncol(a0), nrow = nrow(a0))
+#if(!instant) B <- GetMatrixBfromH(SM$Noise_Transfer_fun)
+#if(!instant) A[1,2,] <- a0[1,2] - A[1,2,]
+#if(!instant) A[2,1,] <- a0[2,1] - A[2,1,]
+#if(!instant) A[1,1,] <-  1 - B[1,1,]
+#if(!instant) A[2,2,] <-  1 - B[2,2,]
+B <- GetMatrixBfromH(SM$Noise_Transfer_fun)
+if(!instant){
+A[1,2,] <- a0[1,2] - A[1,2,]
+A[2,1,] <- a0[2,1] - A[2,1,]
+}
+A[1,1,] <-  1 - B[1,1,]
+A[2,2,] <-  1 - B[2,2,]
+if(!instant) a0 <- matrix(0, ncol = ncol(a0), nrow = nrow(a0))
+sigma <- SM$Noise_Spectra
+delta <- abs((1-A[1,1,]) * (1 - A[2,2,]) - (A[1,2,] - a0[1,2]) * (A[2,1,] - a0[2,1]))^2
+C1 <- -sigma[1,1]*(1 - A[2,2,])*Conj(A[2,1,])
+C2 <- -sigma[2,2]*(1 - Conj(A[1,1,]))*A[1,2,]
+C3 <- (a0[2,1]*(1-A[2,2,])*sigma[1,1] + a0[1,2]*Conj(1-A[1,1,])*sigma[2,2])
+C1 <- C1/delta
+C2 <- C2/delta
+C3 <- C3/delta
+Crosspec <- C1 + C2 + C3
+if(instant){
+return(list(C1 = C1, C2 = C2, C3 = C3, Cr = Crosspec))
+} else {
+  return(list(C1 = C1, C2 = C2, Cr = Crosspec))
+}
+}
+
+
+
+DecomposeCrossSpec <- function(SM, instant = TRUE){
+  H <- SM$Noise_Transfer_fun
+  B <- GetMatrixBfromH(H)
+  a0 <- SM$a0
+  if(!instant) a0 <- matrix(0, ncol = ncol(a0), nrow = nrow(a0))
+  sigma <- SM$Noise_Spectra
+  delta <- abs(B[1,1,]*B[2,2,] - (-B[1,2,])*(-B[2,1,]))^2
+  C1 <- sigma[1,1]*B[2,2,]*Conj(B[2,1,] - a0[2,1])
+  C2 <- sigma[2,2]*Conj(B[1,1,])*(B[1,2,] - a0[1,2])
+  C3 <- (a0[2,1]*(B[2,2,])*sigma[1,1] + a0[1,2]*Conj(B[1,1,])*sigma[2,2])
+  C1 <- C1/delta
+  C2 <- C2/delta
+  C3 <- C3/delta
+  Crosspec <- C1 + C2 + C3
+  if(instant){
+    return(list(C1 = C1, C2 = C2, C3 = C3, Cr = Crosspec))
+  } else {
+    return(list(C1 = C1, C2 = C2, Cr = Crosspec))
+  }
+}
+
+
+
+CalculateCausalPhase <- function(ccoh){
+  N <- length(ccoh)
+  for(n in 1:N){
+    ccoh[[n]] <- atan2(Im(ccoh[[n]]), Re(ccoh[[n]]))
+  }
+  return(ccoh)
+}
+
+CalculateCausalCoherence3 <- function(SM, ccoh){
+  S <- SM$Spectra
+  N <- length(ccoh)
+  den <- sqrt((S[1,1,] * S[2,2,]))
+  for(n in 1:N){
+    ccoh[[n]] <- abs(ccoh[[n]] / den)^2
+  }
+  return(ccoh)
+}
+
+# ESTA ES LA BUENA
+CalculateCausalCoherence2 <- function(SM){
+  S <- SM$Spectra
+  H <- SM$Noise_Transfer_fun
+  sigma <- SM$Noise_Spectra
+  C1 <- abs(sigma[2,2]*abs(H[1,2,]^2)/S[1,1,]) #H21 = 0, Causalidad de S2 a S1 
+  C2 <- abs(sigma[1,1]*abs(H[2,1,]^2)/S[2,2,]) #H12 = 0, Causalidad de S1 a S2
+  # S2 = Input (RR)
+  # S1 = Output (SBP)
+  C3 <- abs(CalculateCoherence(SM, 1, 2))^2
+  return(list(C1 = C1, C2 = C2, Cr = C3))
+}
+
+PlotCausality2 <- function(SM, index, VLF = 0.04, LF = 0.15, HF = 0.4, xlim = NULL){
+  freqs <- SM$Freqs 
+  if(is.null(xlim)){
+    xlim = c(VLF, HF)
+  }
+  G21 <- (abs(SM$Noise_Transfer_fun[1, 2, ])^2) *
+    SM$Noise_Spectra[2, 2] / abs(SM$Spectra[1,1,])
+  G12 <- (abs(SM$Noise_Transfer_fun[2, 1, ])^2) *
+    SM$Noise_Spectra[1, 1] / abs(SM$Spectra[2,2,])
+  G21 <- -log(1 - G21)
+  G12 <- -log(1 - G12)
+  Max <- max(max(G12[(freqs <= HF) & (freqs >= VLF)]), max(G21[(freqs <= HF) & (freqs >= VLF)]))
+  G = list(G12, G21)
+  if(index == 1) index1 <- 2
+  if(index == 2) index1 <- 1
+  plot(freqs, G[[index]], xlim = xlim, xlab = "Frequency",
+       ylab = "Causality",
+       main = "Causal flow (current branch in red)", type = "l",
+       ylim = c(0, Max), col = "red")
+  lines(freqs, G[[index1]])
+  abline(v = VLF, col = "grey")
+  abline(v = LF, col = "grey")
+  abline(v = HF, col = "grey")
+}
+
+
+PlotCausalCoherence <- function(SM, CCoh, VLF = 0.04, LF = 0.15, HF = 0.4, xlim = NULL){
+  freqs <- SM$Freqs 
+  if(is.null(xlim)){
+    xlim = c(VLF, HF)
+  }
+  if(length(CCoh) > 3){
+  Max <- max(max(CCoh$C1[(freqs <= HF) & (freqs >= VLF)]), max(CCoh$C2[(freqs <= HF) & (freqs >= VLF)]),
+             max(CCoh$C3[(freqs <= HF) & (freqs >= VLF)]), max(CCoh$Cr[(freqs <= HF) & (freqs >= VLF)]))
+  } else {
+    Max <- max(max(CCoh$C1[(freqs <= HF) & (freqs >= VLF)]), max(CCoh$C2[(freqs <= HF) & (freqs >= VLF)]), 
+               max(CCoh$Cr[(freqs <= HF) & (freqs >= VLF)]))
+  }
+  plot(freqs, CCoh$C1, xlab = "Frequency (Hz)", ylab = "Causal Coherence", col = "red", ylim = c(0, 1.3), xlim = xlim,
+       type = "p", pch = 4)
+  points(freqs, CCoh$C2, col = "blue", pch = 2)
+  lines(freqs, CCoh$Cr, col = "green")
+  if(length(CCoh) > 3) points(freqs, CCoh$C3, col = "green", pch = 4)
+  abline(v = VLF, col = "gray")
+  abline(v = LF, col = "grey")
+  abline(v = HF, col = "grey")
+  
+}
+  
+
+GetMeanCoherence <- function(SM, coherence, HF = 0.4, LF = 0.15, VLF = 0.04){
+  frequency <- SM$Freqs 
+  F <- NROW(frequency)
+  LF_f <- frequency[frequency >= VLF]
+  LF_f <- LF_f[LF_f < LF]
+  HF_f <- frequency[frequency >= LF]
+  HF_f <- HF_f[HF_f <= HF] 
+  LF_band <- match(min(LF_f), frequency):match(max(LF_f), frequency)
+  HF_band <- match(min(HF_f), frequency):match(max(HF_f), frequency)
+  HF <- coherence
+  LF <- coherence
+  for(n in 1:length(HF)){
+    HF[[n]] <- mean(coherence[[n]][HF_band])
+    LF[[n]] <- mean(coherence[[n]][LF_band])
+  }
+  return(list(HF = HF, LF = LF))
+}
+
+GetMaxCoherence <- function(SM, coherence, HF = 0.4, LF = 0.15, VLF = 0.04){
+  frequency <- SM$Freqs 
+  F <- NROW(frequency)
+  LF_f <- frequency[frequency >= VLF]
+  LF_f <- LF_f[LF_f < LF]
+  HF_f <- frequency[frequency >= LF]
+  HF_f <- HF_f[HF_f <= HF] 
+  LF_band <- match(min(LF_f), frequency):match(max(LF_f), frequency)
+  HF_band <- match(min(HF_f), frequency):match(max(HF_f), frequency)
+  HF <- coherence
+  LF <- coherence
+  for(n in 1:length(HF)){
+    HF[[n]] <- max(coherence[[n]][HF_band])
+    LF[[n]] <- max(coherence[[n]][LF_band])
+  }
+  return(list(HF = HF, LF = LF))
+}
+
+
+
+

@@ -1,0 +1,269 @@
+
+ParamFreqModel <- function(model, len = 1000, dt = 0.25, A0 = TRUE, sigma = NULL,
+   coefs = NULL){
+                   if(is.null(sigma) & is.null(coefs)){
+                      coefs <- GetCoefs(model)
+                      sigma <- summary(model)$cov
+                   } else if(is.null(sigma) & !is.null(coefs)){
+                             stop("Indicate coeficients")
+                   } else if(is.null(sigma) & !is.null(coefs)){
+                             stop("Indicate covariance matrix")
+                   }
+                   #freqs <- seq(0, 0.5, len = len) Check
+                   freqs <- spec.pgram(model$y[,1], plot = FALSE, 
+                                       pad = len/(model$totobs/2) - 1)$freq
+                   #A <- GetMatrixAfromCoefs(coefs, freqs, dt = dt) Check
+                   A <- GetMatrixAfromCoefs(coefs, freqs) # Check
+                   B <- GetMatrixBfromA(A)
+                   H <- GetMatrixHfromB(B)
+                   TFuns <- GetTransFuns(B)
+                   sigma <- sigma * dt / 4
+                   #sigma <- sigma * dt
+                   S <- GetSpectra(H, sigma)
+                   OpenTFuns <- GetOpenTFuns(S)
+                   OpenVSClosed <- GetOpenVSClosedDif(OpenTFuns, TFuns)
+                   a0 <- diag(1,2)
+                   output <- list(Freqs = freqs / dt, Vars_Transfer_funs = A,
+                      Transfer_Functions = TFuns, Open_Transfer_Functions = 
+                        OpenTFuns, Open_Transfer_Functions_Overestimation =
+                           OpenVSClosed, Noise_Transfer_fun = H,
+                             Spectra = S, Noise_Spectra = sigma, a0 = a0)
+                   if(A0){
+                      output <- IncludeA0Effects(output)
+                   }
+                   return(output)
+}
+
+
+
+IncludeA0Effects <- function(system){
+                sigma <- system$Noise_Spectra 
+                Noise_Transfer_fun <- system$Noise_Transfer_fun
+                Vars_Transfer_fun <- system$Vars_Transfer_funs
+                Open_Transfer_Functions <- system$Open_Transfer_Functions
+                a0_Effects <- GetA0Fun(sigma)
+                new_sigma <- a0_Effects$sigma
+                a0 <- a0_Effects$a0
+                I <- diag(c(1,1), 2, 2)
+                B <- array(0, dim = dim(Vars_Transfer_fun))
+                for(n in 1:(dim(Noise_Transfer_fun)[3])){
+                    Noise_Transfer_fun[,,n] <- Noise_Transfer_fun[,,n] %*% 
+                       solve(a0)
+                }
+                B <- GetMatrixBfromH(Noise_Transfer_fun)
+                Vars_Transfer_fun <- GetMatrixAfromB(B, a0)
+                TFuns <- GetTransFuns(B)
+                OpenVSClosed <- GetOpenVSClosedDif(Open_Transfer_Functions, 
+                    TFuns)
+                system$Noise_Spectra <- new_sigma 
+                system$Noise_Transfer_fun <- Noise_Transfer_fun
+                system$Vars_Transfer_funs <- Vars_Transfer_fun
+                system$Transfer_Functions <- TFuns
+                system$Open_Transfer_Functions_Overestimation <- 
+                     OpenVSClosed
+                system$a0 <- a0
+                return(system)
+}
+
+
+ApplyCausalRestriction <- function(system, index){
+  if(index == 1) index2 <- 2
+  else if(index == 2) index2 <- 1
+  dims <- dim(system$Vars_Transfer_funs)
+  system$Vars_Transfer_funs[index, index2, ] <- double(dims[3])
+  B <- system$Vars_Transfer_funs
+  TFuns <- GetTransFuns(B)
+  H <- GetMatrixHfromB(B)
+  sigma <- system$Noise_Spectra
+  S <- GetSpectra(H, sigma)
+  OpenTFuns <- GetOpenTFuns(S)
+  OpenVSClosed <- GetOpenVSClosedDif(OpenTFuns, TFuns)
+  system$Transfer_Functions[index, index2,] <- TFuns[index, index2,]
+  system$Open_Transfer_Functions[index, index2,] <- OpenTFuns[index, index2,]
+  system$Open_Transfer_Functions_Overestimation[index, index2,] <- OpenVSClosed[index, index2,]
+  system$Noise_Transfer_fun[index, index2,] <- H[index, index2,]
+  system$Spectra[index, index2,] <- S[index, index2,]
+  system$Transfer_Functions[index2, index,] <- TFuns[index2, index,]
+  system$Open_Transfer_Functions[index2, index,] <- OpenTFuns[index2, index,]
+  system$Open_Transfer_Functions_Overestimation[index2, index,] <- OpenVSClosed[index2, index,]
+  system$Noise_Transfer_fun[index2, index,] <- H[index2, index,]
+  system$Spectra[index2, index,] <- S[index2, index,]
+  return(system)
+}
+
+
+
+
+
+GetA0Fun <- function(sigma){
+            b <- t(chol(sigma))
+            D <- diag(b)
+            b <- b %*% diag(1/D, nrow = length(D))
+            a0 <- solve(b)
+            new_sigma <- diag(D^2, nrow = length(D))
+            return(list(a0 = a0, sigma = new_sigma))
+}
+
+UpdateWithA0 <- function(A0, coefs){
+            ncoefs <- coefs
+            for(n in 1:length(coefs)){
+                ncoefs[[n]] <- A0 %*% coefs[[n]]
+            }  
+            return(ncoefs)
+}
+
+
+
+GetCoefs <- function(var){
+            max.lag = var$p
+            K <- var$K
+            lags <- 1:max.lag
+            coefs <- coef(var)
+            sel_coefs <- NULL
+            coef_list <- list()
+            length(coef_list) <- max.lag
+            for(k in 1:K){
+                sel_coefs <- cbind(sel_coefs, coefs[[k]][,1])
+            }
+            for(lag in lags){
+                coef_list[[lag]] <- t(sel_coefs[(1:K) + (K*(lag-1)),])
+            }
+            return(coef_list)
+}
+
+
+
+
+GetMatrixAfromVAR <- function(var, coefs, freqs, dt = 0.25){
+              K <- var$K
+              lags <- 1:var$p
+              A <- array(0, dim = c(K, K, NROW(freqs)))
+              for(n in 1:K){
+                  for(m in 1:K){
+                      for(lag in lags){
+                          A[n, m, ] <- A[n, m, ] +
+                              coefs[[lag]][n, m] * exp(-2*pi*freqs*1i*lag*dt)
+                      }
+                  }
+              }
+              return(A)
+}
+
+GetMatrixAfromCoefs <- function(coefs, freqs, dt = 0.25){
+              K <- ncol(coefs[[1]])
+              lags <- 1:length(coefs)
+              A <- array(0, dim = c(K, K, NROW(freqs)))
+              for(n in 1:K){
+                  for(m in 1:K){
+                      for(lag in lags){
+                          A[n, m, ] <- A[n, m, ] +
+                              #coefs[[lag]][n, m] * exp(-2*pi*freqs*1i*lag*dt)
+                               coefs[[lag]][n, m] * exp(-2*pi*freqs*1i*lag) #check
+                      }
+                  }
+              }
+              return(A)
+}
+
+
+
+GetMatrixBfromA <- function(A){
+              B <- array(0, dim(A))
+              for(n in 1:dim(A)[3]){
+                  B[ , , n] <- diag(c(1,1), dim(A)[1]) - A[ , , n]
+              } 
+              return(B)
+}
+
+
+GetMatrixHfromB <- function(B){
+              H <- array(0, dim(B))
+              for(n in 1:dim(B)[3]){
+                  H[ , , n] <- solve(B[ , , n])
+              } 
+              return(H)
+}
+
+GetTransFuns <- function(B){
+              TFuns <- array(0, dim(B))
+              dims <- dim(B)
+              for(n in 1:dims[2]){
+                  for(m in 1:dims[2]){
+                      TFuns[n,m,] <-  - B[n,m,] / B[n,n,]
+                  }
+              }
+              return(TFuns)
+}
+
+
+GetSpectra <- function(H, sigma){
+              S <- array(0, dim(H))
+              for(n in 1:dim(H)[3]){
+                S[,,n] <- H[,,n] %*% sigma %*% t(Conj(H[,,n]))
+                #S[,,n] <- Conj(H[,,n]) %*% sigma %*% t((H[,,n]))
+              }
+              return(S)
+}
+
+GetOpenTFuns <- function(S){
+              OpenTFuns <- array(0, dim(S))
+              dims <- dim(S)
+              for(n in 1:dims[2]){
+                  for(m in 1:dims[2]){
+                      OpenTFuns[m,n,] <-  sqrt(abs(S[m,m,]) / abs(S[n,n,]))
+                  }
+              }
+              return(OpenTFuns)
+}
+
+# New version of GetOpenTFuns:
+
+GetOpenTFuns <- function(S){
+  OpenTFuns <- array(0, dim(S))
+  dims <- dim(S)
+  for(n in 1:dims[2]){
+    for(m in 1:dims[2]){
+      OpenTFuns[n,m,] <-  S[m,n,] / abs(S[m,m,])
+    }
+  }
+  return(OpenTFuns)
+}
+
+
+
+GetOpenVSClosedDif <- function(open, closed){
+              pers <- array(0, dim(open))
+              dims <- dim(open)
+              for(n in 1:dims[3]){
+                  pers[,,n] <- abs(abs(open[,,n]) - abs(closed[,,n])) * 100 /
+                     abs(open[,,n])
+              }
+              return(pers)
+}
+                            
+GetMatrixAfromB <- function(B, a0){
+              A <- array(0, dim(B))
+              for(n in 1:dim(A)[3]){
+                  #A[ , , n] <- diag(c(1,1), dim(A)[1]) - B[ , , n]
+                  A[ , , n] <- a0 - B[ , , n]
+              } 
+              return(A)
+}
+
+
+GetMatrixBfromH <- function(H){
+              B <- array(0, dim(H))
+              for(n in 1:dim(B)[3]){
+                  B[ , , n] <- solve(H[ , , n])
+              } 
+              return(B)
+}                        
+                       
+
+
+
+
+
+
+
+
