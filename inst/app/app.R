@@ -5,7 +5,7 @@
 #' Shiny app interface to analyze closed-loop and open-loop cardiovascular
 #' interactions
 #'         
-#' @author Alvaro Chao-Ecija
+#' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
 #' 
 #' @details 
 #'This script contains the commands for the building and functionality of
