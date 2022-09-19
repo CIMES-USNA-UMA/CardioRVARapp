@@ -1,25 +1,37 @@
-#
-# Developed by Alvaro Chao-Ecija
-# 
-# This script contains the commands for the building and functionality of
-# CardioRVAR's Shiny interface. This project has been developed by the 
-# department of Physiology of the University of Malaga, and was supervised
-# and mentored by PhD. MS Dawid Milner.
-#
-# The purpose of this interface is to facilitate the use of CardioRVAR's
-# commands in a user-friendly way. With the interface, the user is able to:
-#
-# 1. Upload cardiovascular signals and select a specific time window
-#
-# 2. Model and evaluate closed-loop interactions between those signals
-#
-# 3. Baroreflex sensitivity and causal coherence estimation*
-#
-# 4. Cuantification of immediate transfer paths*
-#
-# 5. Estimation of noise source contribution
-#
-# *See the references section for further information.
+
+
+#' CardioRVARapp
+#'
+#' Shiny app interface to analyze closed-loop and open-loop cardiovascular
+#' interactions
+#'         
+#' @author Alvaro Chao-Ecija
+#' 
+#' @details 
+#'This script contains the commands for the building and functionality of
+#' CardioRVAR's Shiny interface. This project has been developed by the 
+#' department of Physiology of the University of Malaga, and was supervised
+#' and mentored by PhD. MS Dawid Milner.
+#'
+#' The purpose of this interface is to facilitate the use of CardioRVAR's
+#' commands in a user-friendly way. With the interface, the user is able to:
+#'
+#' 1. Upload cardiovascular signals and select a specific time window
+#'
+#' 2. Model and evaluate closed-loop interactions between those signals
+#'
+#' 3. Baroreflex sensitivity and causal coherence estimation*
+#'
+#' 4. Cuantification of immediate transfer paths*
+#'
+#' 5. Estimation of noise source contribution
+#'
+#' *See the references section for further information.
+#'         
+#'
+#' @export
+#'
+
 
 library(shiny)
 library(CardioRVAR)

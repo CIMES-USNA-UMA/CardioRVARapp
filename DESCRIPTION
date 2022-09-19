@@ -3,15 +3,16 @@ Type: Package
 Title: CardioRVARapp
 Version: 0.1.0
 Author: Alvaro Chao Ecija [aut, cre]
-Maintainer: Alvaro Chao Ecija <dummyemail@gmail-.com>
+Maintainer: Alvaro Chao Ecija <alvaro.rprojects@gmail.com>
 Description: A shiny app designed to work with the functions of CardioRVAR 
              package. Provides a user-friendly interface for this purpose.
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    ggplot2,
-    tools
+    ggplot2 (>= 3.3.6),
+    tools (>= 4.0.3)
 Depends: 
-    shiny,
+    shiny (>= 1.7.2),
     CardioRVAR
+RoxygenNote: 7.2.1
