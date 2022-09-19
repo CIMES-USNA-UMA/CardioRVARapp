@@ -10,7 +10,7 @@ allowing a better experience without having to use the commands in R or Rstudio.
 
 To launch the shiny application, use the following code (packages *shiny* and *CardioRVAR* are required):
 
-*shiny::runGitHub("CardioRVARapp", "CIMES-USNA-UMA")*
+*shiny::runGitHub("CardioRVARapp", "CIMES-USNA-UMA", subdir = "inst/app", launch.browser = TRUE)*
 
 To install *CardioRVAR*, use the following code:
 
