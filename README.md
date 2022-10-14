@@ -10,17 +10,23 @@ allowing a better experience without having to use the commands in R or Rstudio.
 
 To launch the shiny application, use the following code (packages *shiny* and *CardioRVAR* are required):
 
-*shiny::runGitHub("CardioRVARapp", "CIMES-USNA-UMA", subdir = "inst/app", launch.browser = TRUE)*
+```ruby
+shiny::runGitHub("CardioRVARapp", "CIMES-USNA-UMA", subdir = "inst/app", launch.browser = TRUE)
+```
 
 To install *CardioRVAR*, use the following code:
 
-*devtools::install_github("CIMES-USNA-UMA/CardioRVAR", upgrade = "never")*
+```ruby
+devtools::install_github("CIMES-USNA-UMA/CardioRVAR", upgrade = "never")
+```
 
 ## Installation
 
 To install the package, use the following code line in R (package devtools is required):
 
-*devtools::install_github("CIMES-USNA-UMA/CardioRVARapp", upgrade = "never")*
+```ruby
+devtools::install_github("CIMES-USNA-UMA/CardioRVARapp", upgrade = "never")
+```
 
 Packages *shiny* and *CardioRVAR* will also be installed at the same time.
 
