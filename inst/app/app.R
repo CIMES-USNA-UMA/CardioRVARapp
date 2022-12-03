@@ -979,7 +979,7 @@ server <- function(input, output, session) {
     )
   session$onSessionEnded(function(){
     stopApp()
-    #q(save = "no")
+    if(.Platform$GUI != "RStudio") q(save = "no")
   })
   
 }
