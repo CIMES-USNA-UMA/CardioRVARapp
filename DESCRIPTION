@@ -14,6 +14,7 @@ Imports:
     ggplot2 (>= 3.3.6),
     tools (>= 4.0.3)
 Depends: 
-    shiny (>= 1.7.2),
-    CardioRVAR
+    shiny (>= 1.7.2)
+Remotes:
+    CIMES-USNA-UMA/CardioRVAR
 RoxygenNote: 7.2.1
