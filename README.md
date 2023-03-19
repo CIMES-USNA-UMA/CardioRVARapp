@@ -32,12 +32,12 @@ Packages *shiny* and *CardioRVAR* will also be installed at the same time.
 
 ## Issues and requests
 
-Please access the following website to create an issue or request:
+Please use the following link to create an issue or request:
 
 https://github.com/CIMES-USNA-UMA/CardioRVARapp/issues
 
 ## Contact information
 
-Email: alvaro.rprojects@gmail.com
+Email: alvarochaoecija.rprojects@gmail.com
 
 ORCID: https://orcid.org/0000-0002-2691-6936
