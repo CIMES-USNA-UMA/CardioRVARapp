@@ -15,7 +15,10 @@ Imports:
     ggplot2 (>= 3.3.6),
     tools (>= 4.0.3)
 Depends: 
+    R (>= 4.0.0)
     shiny (>= 1.7.2)
 Remotes:
     CIMES-USNA-UMA/CardioRVAR
 RoxygenNote: 7.2.1
+URL: https://github.com/CIMES-USNA-UMA/CardioRVARapp
+BugReports: https://github.com/CIMES-USNA-UMA/CardioRVARapp/issues
