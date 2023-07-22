@@ -10,9 +10,16 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' StartCardioRVARapp()
+#' }
+#' 
 #' 
 StartCardioRVARapp <- function(){
+  if (!requirerNamespace("shiny"))
+    stop(
+      "Package 'shiny' must be installed to access CardioRVARapp application."
+    )
   shiny::runApp(system.file("app", package = "CardioRVARapp"), launch.browser = TRUE)
 }
 

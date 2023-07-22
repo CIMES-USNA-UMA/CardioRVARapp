@@ -10,7 +10,10 @@ StartCardioRVARapp()
 Launches CardioRVARapp in a browser
 }
 \examples{
+\dontrun{
 StartCardioRVARapp()
+}
+
 
 }
 \author{
