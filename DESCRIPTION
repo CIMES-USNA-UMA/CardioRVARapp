@@ -1,7 +1,7 @@
 Package: CardioRVARapp
 Type: Package
 Title: Shiny Application for the Analysis of Open and Closed-Loop 
-       Cardiovascular Interactions.
+       Cardiovascular Interactions
 Version: 0.1.0
 Author: Alvaro Chao-Ecija <alvarochaoecija.rprojects@gmail.com> [aut, cre] (<https://orcid.org/0000-0002-2691-6936>), 
         Marc Stefan Dawid-Milner [aut]
