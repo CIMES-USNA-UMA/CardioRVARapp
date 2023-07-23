@@ -18,7 +18,7 @@
 #' 
 #' 
 StartCardioRVARapp <- function(){
-  if (!requirerNamespace("shiny"))
+  if (!requireNamespace("shiny"))
     stop(
       "Package 'shiny' must be installed to access CardioRVARapp application."
     )
