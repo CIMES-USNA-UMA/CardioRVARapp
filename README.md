@@ -23,15 +23,15 @@ shiny::runGitHub("CardioRVARapp", "CIMES-USNA-UMA", subdir = "inst/app", launch.
 To install *CardioRVAR*, use the following code:
 
 ```ruby
-devtools::install_github("CIMES-USNA-UMA/CardioRVAR")
+remotes::install_github("CIMES-USNA-UMA/CardioRVAR")
 ```
 
 ## Installation
 
-To install the package, use the following code line in R (package devtools is required):
+To install the package, use the following code line in R (package remotes is required):
 
 ```ruby
-devtools::install_github("CIMES-USNA-UMA/CardioRVARapp")
+remotes::install_github("CIMES-USNA-UMA/CardioRVARapp")
 ```
 
 Packages *shiny* and *CardioRVAR* will also be installed at the same time.
