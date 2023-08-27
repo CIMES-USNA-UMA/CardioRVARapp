@@ -1,3 +1,9 @@
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/CIMES-USNA-UMA/CardioRVARapp/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CIMES-USNA-UMA/CardioRVARapp/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
+
+
 ## Description
 
 CardioRVARapp is a shiny app developed by Alvaro Chao-Ecija (intern student at the 
