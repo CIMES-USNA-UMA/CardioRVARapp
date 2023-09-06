@@ -447,7 +447,7 @@ ui <- fluidPage(
                  such as the baroreflex sensitivity can be analyzed.
 
                In the following sections, we will discuss several features regarding these analyses. Several references have been
-               provided for further information. For more information, please contact Alvaro Chao-Ecija (cardiorvar@gmail.com).",
+               provided for further information. For more information, please contact Alvaro Chao-Ecija (alvarochaoecija.rprojects@gmail.com).",
         style = "text-align:justify;color:black;background-color:lavender;padding:15px;border-radius:10px"
       ),
       br(),
