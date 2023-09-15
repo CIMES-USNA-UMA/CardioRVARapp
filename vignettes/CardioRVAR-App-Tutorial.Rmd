@@ -61,14 +61,14 @@ write.table(Cardiovascular, "Example.txt", row.names = FALSE, quote =   FALSE)
 In the below figure you can see the diagnostics obtained from a chosen interval. When you click on 
 "Calculate Results", a VAR(18) model will be computed and used to estimate a frequency domain model.
 
-```{r Figure 3, echo = FALSE, fig.align = "center", fig.caption = "Fig. 3.",out.width="100%", out.height="100%"}
+```{r Figure 3, echo = FALSE, fig.align = "center", fig.caption = "Fig. 3.",out.width="60%", out.height="60%"}
 knitr::include_graphics("CardioRVARapp_figures/Figure3.png")
 ```
 
 This model will have, as shown in the figure below, a specific input (BPV) and a specific output (HRV).
 You can also define a zero-transfer path here:
 
-```{r Figure 4, echo = FALSE, fig.align = "center", fig.caption = "Fig. 4.",out.width="100%", out.height="100%"}
+```{r Figure 4, echo = FALSE, fig.align = "center", fig.caption = "Fig. 4.",out.width="60%", out.height="60%"}
 knitr::include_graphics("CardioRVARapp_figures/Figure4.png")
 ```
 
@@ -122,18 +122,31 @@ knitr::include_graphics("CardioRVARapp_figures/Figure10.png")
 ```
 
 
-Finally, you can see here the transfer funtions of the noise-source model computed from the variables:
+Finally, you can see here the transfer functions of the noise-source model computed from the variables:
 ```{r Figure 11, echo = FALSE, fig.align = "center", fig.caption = "Fig. 11.",out.width="100%", out.height="100%"}
 knitr::include_graphics("CardioRVARapp_figures/Figure11.png")
 ```
+
+## Download your results
+
+Press on "Download Calculated Results" to download a .txt file with the computed data. You can also press
+"Download Model Structure" to download an R-compatible file with the complete structure of your modeled 
+data. With the latter file, you can continue analyzing it in the R environment with CardioRVAR and other
+R functions.
+
+```{r Figure 12, echo = FALSE, fig.align = "center", fig.caption = "Fig. 12.",out.width="60%", out.height="60%"}
+knitr::include_graphics("CardioRVARapp_figures/Figure12.png")
+```
+
+
 
 
 ## When encountering an error:
 
 Some actions, like uploading an unsupported type of file such as .doc file, will trigger an error. In such cases, an error message will be displayed at the bottom right of the interface, such as this one:
 
-```{r Figure 12, echo = FALSE, fig.align = "center", fig.caption = "Fig. 12.",out.width="40%", out.height="40%"}
-knitr::include_graphics("CardioRVARapp_figures/Figure12.png")
+```{r Figure 13, echo = FALSE, fig.align = "center", fig.caption = "Fig. 13.",out.width="60%", out.height="60%"}
+knitr::include_graphics("CardioRVARapp_figures/Figure13.png")
 ```
 
 This error, for example, was triggered after trying to load a .doc file into the interface. A table with different error messages and their meaning will be created and updated.
