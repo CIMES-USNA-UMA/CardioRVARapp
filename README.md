@@ -23,7 +23,7 @@ shiny::runGitHub("CardioRVARapp", "CIMES-USNA-UMA", subdir = "inst/app", launch.
 To install *CardioRVAR*, use the following code:
 
 ```ruby
-remotes::install_github("CIMES-USNA-UMA/CardioRVAR")
+remotes::install_github("CIMES-USNA-UMA/CardioRVAR", build_vignettes = TRUE)
 ```
 
 ## Installation
@@ -31,10 +31,41 @@ remotes::install_github("CIMES-USNA-UMA/CardioRVAR")
 To install the package, use the following code line in R (package remotes is required):
 
 ```ruby
-remotes::install_github("CIMES-USNA-UMA/CardioRVARapp")
+remotes::install_github("CIMES-USNA-UMA/CardioRVARapp", build_vignettes = TRUE)
 ```
 
-Packages *shiny* and *CardioRVAR* will also be installed at the same time.
+Package *CardioRVAR* will also be installed at the same time.
+
+## Tutorial
+
+A tutorial for this package is available as a vignette. To access the tutorial vignette,
+first ensure that packages *knitr* and *rmarkdown* are installed:
+
+```ruby
+install.packages("knitr")
+install.packages("rmarkdown")
+```
+
+Then, install package *CardioRVARapp* as described above (with the option to build vignettes turned on as
+described). Then, you can use the following commands to access the tutorial:
+
+```ruby
+library(CardioRVARapp)
+vignette("CardioRVAR-App-Tutorial")
+
+# Or alternatively:
+
+vignette("CardioRVAR-App-Tutorial", package = "CardioRVARapp")
+```
+This will show the vignette in the *help* section of *RStudio*. If you want to access
+the HTML version, use the following command:
+
+```ruby
+browseVignettes("CardioRVARapp")
+```
+
+An access for the vignette *CardioRVARapp Tutorial* will be shown. To see the vignette, click on
+*HTML*.
 
 ## Issues and requests
 

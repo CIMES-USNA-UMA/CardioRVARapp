@@ -35,6 +35,8 @@
 
 
 library(shiny)
+library(ggplot2)
+library(tools)
 library(CardioRVAR)
 
 
@@ -630,11 +632,11 @@ server <- function(input, output, session) {
   observeEvent(input$upload, {
     tryCatch({
       req(input$data_file)
-      if (tools::file_ext(input$data_file$datapath) == "csv") {
+      if (file_ext(input$data_file$datapath) == "csv") {
         data <- read.csv(input$data_file$datapath,
                          header = TRUE,
                          sep = input$separator)
-      } else if (tools::file_ext(input$data_file$datapath) == "txt") {
+      } else if (file_ext(input$data_file$datapath) == "txt") {
         data <- read.table(input$data_file$datapath, header = TRUE)
         if (!("RR" %in% names(data))) {
           data$RR <- data$Time * 1000
@@ -646,7 +648,7 @@ server <- function(input, output, session) {
       R_data <- data
       freq <- isolate(Data$freq)
       if (input$Interpolate) {
-        data <- InterpolateData(data, input$int_freq)
+        data <- ResampleData(data, input$int_freq)
         Data$freq <- input$int_freq
       } else {
         Data$freq <- 1 / diff(Time)[1]
@@ -666,10 +668,10 @@ server <- function(input, output, session) {
       Data$Validity <- FALSE
       saveData$HR <- 60000 / saveData$RR
       output$Raw <- renderPlot({
-        ggplot2::ggplot(data = data.frame(saveData), ggplot2::aes(Time)) +
-          ggplot2::geom_line(ggplot2::aes(y = HR, colour = "HR")) + ggplot2::geom_line(ggplot2::aes(y = SBP, colour = "SBP")) +
-          ggplot2::scale_y_continuous(name = "bpm",
-                                      sec.axis = ggplot2::sec_axis(trans =  ~ . * 1, name = "mmHg"))
+        ggplot(data = data.frame(saveData), aes(Time)) +
+          geom_line(aes(y = HR, colour = "HR")) + geom_line(aes(y = SBP, colour = "SBP")) +
+          scale_y_continuous(name = "bpm",
+                                      sec.axis = sec_axis(trans =  ~ . * 1, name = "mmHg"))
       })
       output$data_file <- renderUI({
         fileInput(
