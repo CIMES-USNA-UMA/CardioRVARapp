@@ -570,7 +570,25 @@ ui <- fluidPage(
       tags$hr()
       
     )
-  ))
+  )),
+  fluidRow(column(12,
+                  wellPanel(
+                    h2("Example mode"),
+                    tags$hr(),
+                    fluidRow(column(
+                      9,
+                      p(
+                        "When the following checkbox is activated, the app will be on example mode.
+        Without uploading any files, you can now click the Confirm Upload button,
+        and an example file will be loaded.",
+                        style = "text-align:justify;color:black;background-color:lavender;padding:15px;border-radius:10px"
+                      ),
+                    ),
+                    column(
+                      3,
+                      checkboxInput("ex_mode", "Example mode", value = TRUE)
+                    ))
+                  )))
   
 )
 
@@ -631,6 +649,15 @@ server <- function(input, output, session) {
   
   observeEvent(input$upload, {
     tryCatch({
+      if(is.null(input$data_file)) {
+        if(input$ex_mode) {
+          showNotification("Loading example file",
+                           duration = NULL,
+                           closeButton = TRUE)
+          data("Cardiovascular")
+          data <- Cardiovascular
+        }
+      } else {
       req(input$data_file)
       if (file_ext(input$data_file$datapath) == "csv") {
         data <- read.csv(input$data_file$datapath,
@@ -644,6 +671,7 @@ server <- function(input, output, session) {
         } else if (max(data$RR) < 100) {
           data$RR <- data$RR * 1000
         }
+      }
       }
       R_data <- data
       freq <- isolate(Data$freq)

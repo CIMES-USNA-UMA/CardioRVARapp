@@ -55,29 +55,37 @@ data(Cardiovascular)
 write.table(Cardiovascular, "Example.txt", row.names = FALSE, quote =   FALSE)
 ```
 
+Or you can use the app's *Example mode*:
+
+```{r Figure 3, echo = FALSE, fig.align = "center", fig.caption = "Fig. 3.",out.width="90%", out.height="90%"}
+knitr::include_graphics("CardioRVARapp_figures/Figure3.png")
+```
+
+While in the *Example mode*, you can press the button *Confirm Upload* without actually uploading
+any file. The example file will be loaded automatically.
 
 ## 2. Check your model
 
 In the below figure you can see the diagnostics obtained from a chosen interval. When you click on 
 "Calculate Results", a VAR(18) model will be computed and used to estimate a frequency domain model.
 
-```{r Figure 3, echo = FALSE, fig.align = "center", fig.caption = "Fig. 3.",out.width="60%", out.height="60%"}
-knitr::include_graphics("CardioRVARapp_figures/Figure3.png")
+```{r Figure 4, echo = FALSE, fig.align = "center", fig.caption = "Fig. 4.",out.width="60%", out.height="60%"}
+knitr::include_graphics("CardioRVARapp_figures/Figure4.png")
 ```
 
 This model will have, as shown in the figure below, a specific input (BPV) and a specific output (HRV).
 You can also define a zero-transfer path here:
 
-```{r Figure 4, echo = FALSE, fig.align = "center", fig.caption = "Fig. 4.",out.width="60%", out.height="60%"}
-knitr::include_graphics("CardioRVARapp_figures/Figure4.png")
+```{r Figure 5, echo = FALSE, fig.align = "center", fig.caption = "Fig. 5.",out.width="60%", out.height="60%"}
+knitr::include_graphics("CardioRVARapp_figures/Figure5.png")
 ```
 
 ## 3. Check your results
 
 The figure bellow represents the spectral coherence and phase:
 
-```{r Figure 5, echo = FALSE, fig.align = "center", fig.caption = "Fig. 5.",out.width="100%", out.height="100%"}
-knitr::include_graphics("CardioRVARapp_figures/Figure5.png")
+```{r Figure 6, echo = FALSE, fig.align = "center", fig.caption = "Fig. 6.",out.width="100%", out.height="100%"}
+knitr::include_graphics("CardioRVARapp_figures/Figure6.png")
 ```
 
 
@@ -85,30 +93,30 @@ And here you can see different estimates of the BRS transfer function. From left
 transfer function without 0-delay effects, (2) Closed-loop transfer function with 0-delay effects and (3)
 Open-loop transfer function.
 
-```{r Figure 6, echo = FALSE, fig.align = "center", fig.caption = "Fig. 6.",out.width="100%", out.height="100%"}
-knitr::include_graphics("CardioRVARapp_figures/Figure6.png")
+```{r Figure 7, echo = FALSE, fig.align = "center", fig.caption = "Fig. 7.",out.width="100%", out.height="100%"}
+knitr::include_graphics("CardioRVARapp_figures/Figure7.png")
 ```
 
 
 Here you can see the causal coherences and a comparison with the spectral coherence. The causal coherences
 serve as an indicator of Granger-causality between the variables:
 
-```{r Figure 7, echo = FALSE, fig.align = "center", fig.caption = "Fig. 7.",out.width="100%", out.height="100%"}
-knitr::include_graphics("CardioRVARapp_figures/Figure7.png")
+```{r Figure 8, echo = FALSE, fig.align = "center", fig.caption = "Fig. 8.",out.width="100%", out.height="100%"}
+knitr::include_graphics("CardioRVARapp_figures/Figure8.png")
 ```
 
 A related measurement, the noise-source contribution, also serves as a direct measurement of causality:
 
 
-```{r Figure 8, echo = FALSE, fig.align = "center", fig.caption = "Fig. 8.",out.width="100%", out.height="100%"}
-knitr::include_graphics("CardioRVARapp_figures/Figure8.png")
+```{r Figure 9, echo = FALSE, fig.align = "center", fig.caption = "Fig. 9.",out.width="100%", out.height="100%"}
+knitr::include_graphics("CardioRVARapp_figures/Figure9.png")
 ```
 
 Here you can see the individual spectrograms computed from autoregressive models representing HRV and BPV:
 
 
-```{r Figure 9, echo = FALSE, fig.align = "center", fig.caption = "Fig. 9.",out.width="100%", out.height="100%"}
-knitr::include_graphics("CardioRVARapp_figures/Figure9.png")
+```{r Figure 10, echo = FALSE, fig.align = "center", fig.caption = "Fig. 10.",out.width="100%", out.height="100%"}
+knitr::include_graphics("CardioRVARapp_figures/Figure10.png")
 ```
 
 
@@ -117,14 +125,14 @@ several behaviors (that is, change the noise sources and 0-delay effects) to ins
 spectra if the transfer function is assumed to remain constant:
 
 
-```{r Figure 10, echo = FALSE, fig.align = "center", fig.caption = "Fig. 10.",out.width="100%", out.height="100%"}
-knitr::include_graphics("CardioRVARapp_figures/Figure10.png")
+```{r Figure 11, echo = FALSE, fig.align = "center", fig.caption = "Fig. 11.",out.width="100%", out.height="100%"}
+knitr::include_graphics("CardioRVARapp_figures/Figure11.png")
 ```
 
 
 Finally, you can see here the transfer functions of the noise-source model computed from the variables:
-```{r Figure 11, echo = FALSE, fig.align = "center", fig.caption = "Fig. 11.",out.width="100%", out.height="100%"}
-knitr::include_graphics("CardioRVARapp_figures/Figure11.png")
+```{r Figure 12, echo = FALSE, fig.align = "center", fig.caption = "Fig. 12.",out.width="100%", out.height="100%"}
+knitr::include_graphics("CardioRVARapp_figures/Figure12.png")
 ```
 
 ## Download your results
@@ -134,8 +142,8 @@ Press on "Download Calculated Results" to download a .txt file with the computed
 data. With the latter file, you can continue analyzing it in the R environment with CardioRVAR and other
 R functions.
 
-```{r Figure 12, echo = FALSE, fig.align = "center", fig.caption = "Fig. 12.",out.width="60%", out.height="60%"}
-knitr::include_graphics("CardioRVARapp_figures/Figure12.png")
+```{r Figure 13, echo = FALSE, fig.align = "center", fig.caption = "Fig. 13.",out.width="60%", out.height="60%"}
+knitr::include_graphics("CardioRVARapp_figures/Figure13.png")
 ```
 
 
@@ -145,8 +153,8 @@ knitr::include_graphics("CardioRVARapp_figures/Figure12.png")
 
 Some actions, like uploading an unsupported type of file such as .doc file, will trigger an error. In such cases, an error message will be displayed at the bottom right of the interface, such as this one:
 
-```{r Figure 13, echo = FALSE, fig.align = "center", fig.caption = "Fig. 13.",out.width="60%", out.height="60%"}
-knitr::include_graphics("CardioRVARapp_figures/Figure13.png")
+```{r Figure 14, echo = FALSE, fig.align = "center", fig.caption = "Fig. 14.",out.width="60%", out.height="60%"}
+knitr::include_graphics("CardioRVARapp_figures/Figure14.png")
 ```
 
 This error, for example, was triggered after trying to load a .doc file into the interface. A table with different error messages and their meaning will be created and updated.
