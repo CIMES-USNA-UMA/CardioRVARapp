@@ -9,7 +9,7 @@
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
 #'
 #' @details
-#'This script contains the commands for the building and functionality of
+#' This script contains the commands for the building and functionality of
 #' CardioRVAR's Shiny interface. This project has been developed by the
 #' department of Physiology of the University of Malaga, and was supervised
 #' and mentored by PhD. MS Dawid Milner.
@@ -63,7 +63,7 @@ ui <- fluidPage(
           h2("Upload data"),
           p("Upload cardiovascular data",
             style = "text-align:justify;color:black;background-color:grey80"),
-          
+          uiOutput("Ex_mode_mesg"),
           uiOutput("data_file"),
           tags$hr(),
           radioButtons(
@@ -609,6 +609,13 @@ server <- function(input, output, session) {
         ".txt"
       )
     )
+    
+  })
+  output$Ex_mode_mesg <- renderUI({
+    if(input$ex_mode) p(
+    "Example mode is ON: if you click the Confirm Upload button without uploading any file,
+     an example file will be loaded.",
+     style = "text-align:justify;color:black;background-color:lavender;padding:15px;border-radius:10px")
   })
   Data <- reactiveValues()
   Data$Results <- FALSE
@@ -715,8 +722,8 @@ server <- function(input, output, session) {
           )
         )
       })
-    }, error = function(my_error) {
-      showNotification(paste0(my_error), type = "error", duration = NULL)
+    }, error = function(CardioRVAR_error) {
+      showNotification(paste0(CardioRVAR_error), type = "error", duration = NULL)
     })
   })
   
@@ -829,9 +836,9 @@ server <- function(input, output, session) {
                        })
                      Data$Validity <- FALSE
                    } else{
-                     RR <- DetrendByCutoff(data$RR[select_time],  f = freq)
+                     RR <- DetrendWithCutoff(data$RR[select_time],  f = freq)
                      SBP <-
-                       DetrendByCutoff(data$SBP[select_time],  f = freq)
+                       DetrendWithCutoff(data$SBP[select_time],  f = freq)
                      stationarity <-
                        CheckStationarity(
                          cbind(SBP = SBP, RR = RR),
@@ -930,8 +937,8 @@ server <- function(input, output, session) {
                    }
                    
                    #}
-                 }, error = function(my_error) {
-                   showNotification(paste0(my_error), type = "error", duration = NULL)
+                 }, error = function(CardioRVAR_error) {
+                   showNotification(paste0(CardioRVAR_error), type = "error", duration = NULL)
                  })
                })
   
@@ -1639,8 +1646,8 @@ server <- function(input, output, session) {
       })
       
       
-    }, error = function(my_error) {
-      showNotification(paste0(my_error), type = "error", duration = NULL)
+    }, error = function(CardioRVAR_error) {
+      showNotification(paste0(CardioRVAR_error), type = "error", duration = NULL)
     })
   })
   
