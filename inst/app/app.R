@@ -102,6 +102,10 @@ ui <- fluidPage(
       4,
       wellPanel(
         # Settings panel: manage particular settings regarding the analysis
+        h3("Detrending settings:"),
+        tags$hr(),
+        numericInput("f_cutoff", "Cutoff", value = 0.035, width = 70),
+        br(),
         h3("VAR model order:"),
         tags$hr(),
         checkboxInput(
@@ -681,6 +685,7 @@ server <- function(input, output, session) {
       }
       }
       R_data <- data
+      Data$Raw <- R_data
       freq <- isolate(Data$freq)
       if (input$Interpolate) {
         data <- ResampleData(data, input$int_freq)
@@ -723,7 +728,9 @@ server <- function(input, output, session) {
         )
       })
     }, error = function(CardioRVAR_error) {
-      showNotification(paste0(CardioRVAR_error), type = "error", duration = NULL)
+      showNotification(as.character(CardioRVAR_error),
+                       type = "error",
+                       duration = NULL)
     })
   })
   
@@ -731,7 +738,7 @@ server <- function(input, output, session) {
   output$hr_stats <- renderText({
     check_brush <- !is.null(input$brush_raw)
     if (check_brush) {
-      data <- isolate(Data$Signals)
+      data <- isolate(Data$Raw)
       select_time <-
         (data$Time >= input$brush_raw$xmin &
            data$Time <= input$brush_raw$xmax)
@@ -751,7 +758,7 @@ server <- function(input, output, session) {
   output$sbp_stats <- renderText({
     check_brush <- !is.null(input$brush_raw)
     if (check_brush) {
-      data <- isolate(Data$Signals)
+      data <- isolate(Data$Raw)
       select_time <-
         (data$Time >= input$brush_raw$xmin &
            data$Time <= input$brush_raw$xmax)
@@ -836,9 +843,11 @@ server <- function(input, output, session) {
                        })
                      Data$Validity <- FALSE
                    } else{
-                     RR <- DetrendWithCutoff(data$RR[select_time],  f = freq)
+                     RR <- DetrendWithCutoff(data$RR[select_time],  f = freq,
+                                             cutoff = input$f_cutoff)
                      SBP <-
-                       DetrendWithCutoff(data$SBP[select_time],  f = freq)
+                       DetrendWithCutoff(data$SBP[select_time],  f = freq,
+                                         cutoff = input$f_cutoff)
                      stationarity <-
                        CheckStationarity(
                          cbind(SBP = SBP, RR = RR),
@@ -938,7 +947,9 @@ server <- function(input, output, session) {
                    
                    #}
                  }, error = function(CardioRVAR_error) {
-                   showNotification(paste0(CardioRVAR_error), type = "error", duration = NULL)
+                   showNotification(as.character(CardioRVAR_error),
+                                    type = "error",
+                                    duration = NULL)
                  })
                })
   
@@ -1019,7 +1030,7 @@ server <- function(input, output, session) {
             str = FALSE,
             coherence = coherence,
             thr = input$coh_thr,
-            use.coh = TRUE,
+            use.coh = ifelse(input$Use_weight, FALSE, TRUE),
             weight = input$Use_weight
           )
         peaks1 <- GetPeaks(freq_model1, str = FALSE)
@@ -1495,7 +1506,7 @@ server <- function(input, output, session) {
           round(max_est_coh$LF$C2, 3)
         form$"Maximum coherence from RR to SBP at HF (n.u.)" <-
           round(max_est_coh$HF$C1, 3)
-        form$"Maximum xoherence from RR to SBP at LF (n.u.)" <-
+        form$"Maximum coherence from RR to SBP at LF (n.u.)" <-
           round(max_est_coh$LF$C1, 3)
         output$RRnoiseVarT <-
           renderText({
@@ -1647,7 +1658,9 @@ server <- function(input, output, session) {
       
       
     }, error = function(CardioRVAR_error) {
-      showNotification(paste0(CardioRVAR_error), type = "error", duration = NULL)
+      showNotification(as.character(CardioRVAR_error),
+                       type = "error",
+                       duration = NULL)
     })
   })
   
