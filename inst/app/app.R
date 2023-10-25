@@ -1530,8 +1530,7 @@ server <- function(input, output, session) {
               freq_model2$Noise_Spectra[sbp_pos, sbp_pos],
               freq_model2$Noise_Spectra[rr_pos, rr_pos]
             ),
-            freq_model2$a0[out_var, in_var],
-            f = freq
+            freq_model2$a0[out_var, in_var]
           )
         output$psd1 <- renderPlot({
           PlotSimulatedS(freq_model2, S, 2)
@@ -1644,8 +1643,7 @@ server <- function(input, output, session) {
             SimulateWithModel(
               data,
               c(input$SBPnoiseVar, input$RRnoiseVar),
-              input$A0_effect,
-              f = input$int_freq
+              input$A0_effect
             )
           output$psd1 <- renderPlot({
             PlotSimulatedS(data, S, 2)
