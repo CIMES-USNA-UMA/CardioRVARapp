@@ -711,17 +711,19 @@ server <- function(input, output, session) {
         ggplot(data = data.frame(saveData), aes(Time)) +
           geom_line(aes(y = HR, colour = "HR")) + geom_line(aes(y = SBP, colour = "SBP")) +
           scale_y_continuous(name = "bpm",
-                                      sec.axis = sec_axis(trans =  ~ . * 1, name = "mmHg")) +
+                                      sec.axis = sec_axis(trans =  ~ . + 0, name = "mmHg")) +
           theme(
             axis.text = element_text(size = 18),
-            axis.title.x = element_text(size = 19),
-            axis.title.y = element_text(size = 19),
-            legend.title = element_text(size = 19),
-            legend.text = element_text(size = 18)
+            axis.title.x = element_text(size = 19, vjust = -0.5),
+            axis.title.y.left = element_text(size = 19, vjust = 2), 
+            axis.title.y.right = element_text(size = 19, vjust = 2), 
+            legend.title = element_text(size = 17),
+            legend.text = element_text(size = 15),
+            legend.position = "bottom"
           ) +
           labs(
-            color = "Variables"
-          ) 
+            color = "Variables:"
+          )
       })
       output$data_file <- renderUI({
         fileInput(
