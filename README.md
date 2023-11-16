@@ -67,6 +67,34 @@ browseVignettes("CardioRVARapp")
 An access for the vignette *CardioRVARapp Tutorial* will be shown. To see the vignette, click on
 *HTML*.
 
+## Citation
+
+To cite *CardioRVARapp*, use the following citation information:
+
+```ruby
+citation("CardioRVARapp")
+#>To cite package ‘CardioRVARapp’ in publications use:
+#>
+#>  Chao-Écija, A.; López-González, M.V.; Dawid-Milner, M.S. CardioRVAR: A New R
+#>  Package and Shiny Application for the Evaluation of Closed-Loop Cardiovascular
+#>  Interactions. Biology 2023, 12, 1438. https://doi.org/10.3390/biology12111438
+#>
+#>A BibTeX entry for LaTeX users is
+#>
+#>  @Article{biology12111438,
+#>    title = {CardioRVAR: A New R Package and Shiny Application for the Evaluation of #>Closed-Loop Cardiovascular Interactions},
+#>    author = {Alvaro Chao-Écija and Manuel Víctor López-González and Marc Stefan #>Dawid-Milner},
+#>    journal = {Biology},
+#>    year = {2023},
+#>    volume = {12},
+#>    number = {11},
+#>    pages = {1438},
+#>    doi = {https://doi.org/10.3390/biology12111438},
+#>    url = {https://www.mdpi.com/2079-7737/12/11/1438},
+#>    issn = {2079-7737},
+#>  }
+```
+
 ## Issues and requests
 
 Please use the following link to create an issue or request:
