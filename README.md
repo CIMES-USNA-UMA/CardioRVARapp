@@ -86,7 +86,7 @@ citation("CardioRVARapp")
 #>
 #>  @Article{biology12111438,
 #>    title = {CardioRVAR: A New R Package and Shiny Application for the Evaluation of #>Closed-Loop Cardiovascular Interactions},
-#>    author = {Alvaro Chao-Écija and Manuel Víctor López-González and Marc Stefan #>Dawid-Milner},
+#>    author = {Alvaro Chao-Écija and Manuel Víctor López-González and Marc Stefan Dawid-Milner},
 #>    journal = {Biology},
 #>    year = {2023},
 #>    volume = {12},
