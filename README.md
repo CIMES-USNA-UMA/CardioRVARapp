@@ -77,7 +77,7 @@ To cite *CardioRVARapp*, use the following citation information:
 citation("CardioRVARapp")
 #>To cite package ‘CardioRVARapp’ in publications use:
 #>
-#>  Chao-Écija, A.; López-González, M.V.; Dawid-Milner, M.S. CardioRVAR: A New R
+#>  Chao-Ecija, A.; Lopez-Gonzalez, M.V.; Dawid-Milner, M.S. CardioRVAR: A New R
 #>  Package and Shiny Application for the Evaluation of Closed-Loop Cardiovascular
 #>  Interactions. Biology 2023, 12, 1438. https://doi.org/10.3390/biology12111438
 #>
@@ -85,7 +85,7 @@ citation("CardioRVARapp")
 #>
 #>  @Article{biology12111438,
 #>    title = {CardioRVAR: A New R Package and Shiny Application for the Evaluation of Closed-Loop Cardiovascular Interactions},
-#>    author = {Alvaro Chao-Écija and Manuel Víctor López-González and Marc Stefan Dawid-Milner},
+#>    author = {Alvaro Chao-Ecija and Manuel Victor López-González and Marc Stefan Dawid-Milner},
 #>    journal = {Biology},
 #>    year = {2023},
 #>    volume = {12},
